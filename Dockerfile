@@ -1,6 +1,4 @@
-#FROM ubuntu:14.04
 FROM phusion/baseimage:latest
-#FROM akintsakis/odysbase
 ENV DEBIAN_FRONTEND noninteractive
 
 ##java 8
@@ -31,43 +29,49 @@ RUN useradd -ms /bin/bash user
 ###
 
 ###install kamaki
-RUN apt-get update -y && apt-get install software-properties-common -y && apt-get install python-software-properties -y
-RUN apt-get update -y && add-apt-repository ppa:grnet/synnefo -y && apt-get update -y && apt-get install kamaki -y
+#RUN apt-get update -y && apt-get install software-properties-common -y && apt-get install python-software-properties -y
+#RUN apt-get update -y && add-apt-repository ppa:grnet/synnefo -y && apt-get update -y && apt-get install kamaki -y
 ### kamaki
 
 ###install various
-RUN apt-get update -y && apt-get install nano -y
-RUN apt-get update -y && apt-get install openssh-server -y
-RUN apt-get update -y && apt-get install dstat -y
-RUN apt-get update -y && apt-get install screen -y
-
-RUN apt-get update -y && apt-get install openssh-server -y
-RUN apt-get update -y && apt-get install dstat -y
-RUN apt-get update -y && apt-get install bash-completion -y
-RUN apt-get update -y && apt-get install sshpass -y
+RUN apt-get update -y && apt-get install nano dstat screen bash-completion sshpass git hmmer unzip wget build-essential bioperl -y
 ###
 
-WORKDIR /home/user
-### install pfam
-RUN apt-get update && apt-get install -yqq hmmer unzip wget
-#WORKDIR /opt
-RUN wget ftp://ftp.ebi.ac.uk/pub/databases/Pfam/releases/Pfam28.0/Pfam-A.hmm.gz && gunzip *.gz && hmmpress Pfam-A.hmm && rm Pfam-A.hmm
+##setup openssh hpn
+RUN add-apt-repository ppa:yoda-jazz-kc/hpn-ssh -y && \
+apt-get update && apt-get -y upgrade --force-yes && apt-get install -y openssh-server && \
+mkdir -p /var/run/sshd && \
+echo "HPNDisabled no" >> /etc/ssh/sshd_config && \
+echo "TcpRcvBufPoll yes" >> /etc/ssh/sshd_config && \
+echo "HPNBufferSize 8192" >> /etc/ssh/sshd_config && \
+echo "NoneEnabled yes" >> /etc/ssh/sshd_config
 ##
 
 
-COPY /dist/ /home/user/dist/
-COPY /ComponentMonitoring/ /home/user/dist/ComponentMonitoring/
-COPY /ComponentMonitoring/plist /home/user/plist
-COPY /Hermes/ /home/user/Hermes/
+WORKDIR /home/user
+
+### install pfam
+RUN mkdir -p pfamAhmmDatabase && cd ./pfamAhmmDatabase && \
+wget ftp://ftp.ebi.ac.uk/pub/databases/Pfam/current_release/Pfam-A.hmm.dat.gz && \
+gunzip *.gz && \
+wget ftp://ftp.ebi.ac.uk/pub/databases/Pfam/current_release/Pfam-A.hmm.gz
+###&& gunzip *.gz && hmmpress Pfam-A.hmm && rm Pfam-A.hmm
+##
+
+##setup PFAM environment
+#RUN apt-get update -y && apt-get install build-essential -y
+#RUN apt-get update -y && apt-get install bioperl -y
+RUN export PERL_MM_USE_DEFAULT=1 && cpan Moose && echo 'export PERL5LIB=/home/user/PfamScan:$PATH' >> /root/.bashrc
+##
+
+##git clone hermes components
+RUN git clone https://github.com/BioDAG/HermesComponents.git && mv ./HermesComponents ./Hermes
+
+####################finalized
 
 
-#COPY .kamakirc /root/.kamakirc
-#COPY /files/ /home/files/
-#COPY simple_client.jar /home/user/client.jar
-
-###setup ssh
+###setup ssh keys etc //deactivated, will take place locally
 #RUN rm -f /etc/service/sshd/down
-
 # Regenerate SSH host keys. baseimage-docker does not contain any, so you
 # have to do that yourself. You may also comment out this instruction; the
 # init system will auto-generate one during boot.
@@ -79,7 +83,6 @@ COPY /Hermes/ /home/user/Hermes/
 #RUN echo 'Host *' >> /root/.ssh/config
 #RUN echo 'StrictHostKeyChecking no' >> /root/.ssh/config
 #RUN echo 'IdentityFile /root/.ssh/identity' >> /root/.ssh/config
-
 ###
 
 
