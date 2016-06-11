@@ -65,7 +65,7 @@ RUN export PERL_MM_USE_DEFAULT=1 && cpan Moose && echo 'export PERL5LIB=/home/us
 ##
 
 ##git clone hermes components
-RUN git clone https://github.com/BioDAG/HermesComponents.git && mv ./HermesComponents ./Hermes
+RUN git clone https://github.com/akintsakis/HermesComponents.git && mv ./HermesComponents ./Hermes
 
 ####################finalized
 
