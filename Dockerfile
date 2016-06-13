@@ -69,7 +69,8 @@ RUN git clone https://github.com/akintsakis/HermesComponents.git && mv ./HermesC
 
 ###install R
 RUN echo 'deb http://cran.rstudio.com/bin/linux/ubuntu trusty/' >> /etc/apt/sources.list && gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9 && gpg -a --export E084DAB9 | sudo apt-key add - && \
-apt-get update -y && apt-get upgrade -y && apt-get install libopenblas-base && apt-get install r-base r-base-dev  && \
+apt-get update -y && apt-get upgrade -y && apt-get install libopenblas-base -y  && \
+apt-get update -y && apt-get install r-base r-base-dev -y  && \
 R -e "install.packages('dplyr', repos = 'http://cran.rstudio.com/')" && \
 R -e "install.packages('gplots', repos = 'http://cran.rstudio.com/')" && \
 R -e "install.packages('RColorBrewer', repos = 'http://cran.rstudio.com/')"
