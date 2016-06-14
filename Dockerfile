@@ -73,7 +73,10 @@ apt-get update -y && apt-get upgrade -y && apt-get install libopenblas-base -y  
 apt-get update -y && apt-get install r-base r-base-dev -y  && \
 R -e "install.packages('dplyr', repos = 'http://cran.rstudio.com/')" && \
 R -e "install.packages('gplots', repos = 'http://cran.rstudio.com/')" && \
-R -e "install.packages('RColorBrewer', repos = 'http://cran.rstudio.com/')"
+R -e "install.packages('RColorBrewer', repos = 'http://cran.rstudio.com/')" && \
+R -e "install.packages('amap', repos = 'http://cran.rstudio.com/')"
+
+
 
 ####################finalized
 
