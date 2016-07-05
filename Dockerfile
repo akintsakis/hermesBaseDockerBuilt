@@ -64,9 +64,6 @@ wget ftp://ftp.ebi.ac.uk/pub/databases/Pfam/current_release/Pfam-A.hmm.gz
 RUN export PERL_MM_USE_DEFAULT=1 && cpan Moose && echo 'export PERL5LIB=/home/user/PfamScan:$PATH' >> /root/.bashrc
 ##
 
-##git clone hermes components
-RUN git clone https://github.com/akintsakis/HermesComponents.git && mv ./HermesComponents ./Hermes
-
 ###install R
 RUN echo 'deb http://cran.rstudio.com/bin/linux/ubuntu trusty/' >> /etc/apt/sources.list && gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9 && gpg -a --export E084DAB9 | sudo apt-key add - && \
 apt-get update -y && apt-get upgrade -y && apt-get install libopenblas-base -y  && \
@@ -76,7 +73,8 @@ R -e "install.packages('gplots', repos = 'http://cran.rstudio.com/')" && \
 R -e "install.packages('RColorBrewer', repos = 'http://cran.rstudio.com/')" && \
 R -e "install.packages('amap', repos = 'http://cran.rstudio.com/')"
 
-
+##git clone hermes components
+RUN git clone https://github.com/akintsakis/HermesComponents.git && mv ./HermesComponents ./Hermes
 
 ####################finalized
 
