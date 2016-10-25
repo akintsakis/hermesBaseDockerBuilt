@@ -51,17 +51,17 @@ echo "NoneEnabled yes" >> /etc/ssh/sshd_config
 WORKDIR /home/user
 
 ### install pfam
-RUN mkdir -p pfamAhmmDatabase && cd ./pfamAhmmDatabase && \
-wget ftp://ftp.ebi.ac.uk/pub/databases/Pfam/current_release/Pfam-A.hmm.dat.gz && \
-gunzip *.gz && \
-wget ftp://ftp.ebi.ac.uk/pub/databases/Pfam/current_release/Pfam-A.hmm.gz
+#RUN mkdir -p pfamAhmmDatabase && cd ./pfamAhmmDatabase && \
+#wget ftp://ftp.ebi.ac.uk/pub/databases/Pfam/current_release/Pfam-A.hmm.dat.gz && \
+#gunzip *.gz && \
+#wget ftp://ftp.ebi.ac.uk/pub/databases/Pfam/current_release/Pfam-A.hmm.gz
 ###&& gunzip *.gz && hmmpress Pfam-A.hmm && rm Pfam-A.hmm
 ##
 
 ##setup PFAM environment
 #RUN apt-get update -y && apt-get install build-essential -y
 #RUN apt-get update -y && apt-get install bioperl -y
-RUN export PERL_MM_USE_DEFAULT=1 && cpan Moose && echo 'export PERL5LIB=/home/user/PfamScan:$PATH' >> /root/.bashrc
+#RUN export PERL_MM_USE_DEFAULT=1 && cpan Moose && echo 'export PERL5LIB=/home/user/PfamScan:$PATH' >> /root/.bashrc
 ##
 
 ###install R
