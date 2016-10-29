@@ -34,7 +34,8 @@ RUN useradd -ms /bin/bash user
 ### kamaki
 
 ###install various
-RUN apt-get update -y && apt-get install nano dstat sysstat screen bash-completion sshpass autossh sysbench git hmmer unzip wget build-essential bioperl -y
+RUN apt-get update -y && apt-get install nano dstat sysstat screen bash-completion sshpass autossh sysbench git unzip wget build-essential -y
+#hmmer bioperl
 ###
 
 ##setup openssh hpn
